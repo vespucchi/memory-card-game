@@ -1,0 +1,18 @@
+.outcome > .container {
+    display: flex;
+    flex-direction: column;
+    background-color: #44281d50;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.outcome p {
+    font-size: 3rem;
+    color: #97ce4c;
+}
+
+.outcome button {
+    background-color: #e89ac7;
+    font-size: 2rem;
+    color: #f0e14a;
+}

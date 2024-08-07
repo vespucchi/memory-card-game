@@ -106,8 +106,8 @@ export default function RenderGame({ changeDifficulty, characters, unchosenChara
                 </section>
                 <section className="rounds">
                     <p>{round} / {characters.length}</p>
-                    {win !== null && <RenderOutcome win={win} newGame={newGame} />}
                 </section>
+                {win !== null && <RenderOutcome win={win} newGame={newGame} />}
             </div>
         </div>
     )
