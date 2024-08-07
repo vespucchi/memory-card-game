@@ -7,6 +7,7 @@ import './App.css';
 
 let characters;
 let gameCharacters = [];
+let unchosenCharacters = [];
 
 function App() {
     const [difficulty, setDifficulty] = useState(null);
@@ -32,16 +33,19 @@ function App() {
             case 'easy':
                 for (let i = 0; i < 5; i++) {
                     gameCharacters.push(characters[i]);
+                    unchosenCharacters = [1, 2, 3, 4, 5];
                 }
                 break;
             case 'medium':
                 for (let i = 0; i < 7; i++) {
                     gameCharacters.push(characters[i]);
+                    unchosenCharacters = [1, 2, 3, 4, 5, 6, 7];
                 }
                 break;
             case 'hard':
                 for (let i = 0; i < 10; i++) {
                     gameCharacters.push(characters[i]);
+                    unchosenCharacters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                 }
                 break;
         }
@@ -59,7 +63,7 @@ function App() {
                 ? <Loading />
                 : difficulty === null
                     ? <RenderMenu changeDifficulty={changeDifficulty} />
-                    : <RenderGame changeDifficulty={changeDifficulty} characters={gameCharacters}/>
+                    : <RenderGame key={difficulty} changeDifficulty={changeDifficulty} characters={gameCharacters} unchosenCharacters={unchosenCharacters}/>
             }
             
         </>

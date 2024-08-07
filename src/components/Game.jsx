@@ -1,69 +1,74 @@
 import { useState, useEffect } from 'react';
 import uniqid from 'uniqid';
 
-let chosenCards = [];
-let unchosenCards = [0, 1, 2, 3, 4];
+let chosenCharacters = [];
 
-export default function RenderGame({ changeDifficulty, characters }) {
+export default function RenderGame({ changeDifficulty, characters, unchosenCharacters }) {
     const [round, setRound] = useState(0);
     const [cards, setCards] = useState([]);
     const [bestScore, setBestScore] = useState(0);
     const [win, setWin] = useState(false);
+    const [unChosenCharacters, setUnChosenCharacters] = useState([...unchosenCharacters]);
 
     useEffect(() => {
         if (win === false) {
+            console.log('start')
+            let uniqueCharacters = [];
             const generatedCards = [];
-            if (characters.length === 5) {
-                for (let i = 0; i < 3; i++) {
-                    if (i === 0) {
-                        let randomId = unchosenCards[Math.floor(Math.random() * unchosenCards.length)];
-                        generatedCards.push(characters[randomId]);
-                    } else {
-                        const randomId = Math.floor(Math.random() * 4);
-                        generatedCards.push(characters[randomId]);
-                    }
+            const unChosenCharCardIndex = Math.floor(Math.random() * characters.length - 1);
+            for (let i = 0; i < characters.length - 2; i++) {
+                if (i === 0) {
+                    // Generate at least 1 unchosen character
+                    console.log(unChosenCharacters);
+                    let randomId = unChosenCharacters[Math.floor(Math.random() * unChosenCharacters.length)];
+                    generatedCards.push(characters[randomId - 1]);
+                    uniqueCharacters = characters.filter((char) => char.id !== randomId).map((char) => char.id);
+                } else {
+                    // Generate other characters randomly
+                    let randomId = Math.floor(Math.random() * uniqueCharacters.length);
+                    generatedCards.push(characters[uniqueCharacters[randomId] - 1]);
+                    uniqueCharacters.splice(randomId, 1);
                 }
-                console.log(generatedCards)
-
-                setCards([...generatedCards]);
             }
+            setCards([...generatedCards]);
         }
-        return(() => setCards([]));
     }, [round, win, characters]);
 
-    const resetUnchosenCardsArray = () => {
-        unchosenCards = [0, 1, 2, 3, 4];
+    const resetUnChosenCharactersArray = () => {
+        setUnChosenCharacters([...unChosenCharacters]);
     }
 
-    const resetChosenCardsArray = () => {
-        chosenCards.length = 0;
+    const resetChosenCharactersArray = () => {
+        chosenCharacters.length = 0;
     }
 
     const newRound = (cardId) => {
         const cardIndex = cardId - 1;
-        if (chosenCards.includes(cardIndex)) {
+        if (chosenCharacters.includes(cardId)) {
             console.log('lose');
 
             setRound(0);
-            resetChosenCardsArray();
-            resetUnchosenCardsArray();
+            resetChosenCharactersArray();
+            resetUnChosenCharactersArray();
         } else {
-            if (round === 4) {
+            if (unChosenCharacters.length === 1) {
                 console.log('win');
+
                 setRound(0);
                 setWin(true);
-                resetChosenCardsArray();
-                resetUnchosenCardsArray();
-                bestScore !== 5 && setBestScore(5);
+                resetChosenCharactersArray();
+                resetUnChosenCharactersArray();
+                bestScore !== characters.length && setBestScore(characters.length);
                 return;
             }
             console.log('next');
+
             setRound(round + 1);
-            chosenCards.push(cardIndex);
-            unchosenCards = unchosenCards.filter((card) => card != cardIndex);
-            console.log(chosenCards)
-            console.log(unchosenCards)
-            chosenCards.length > bestScore && setBestScore(chosenCards.length);
+            chosenCharacters.push(cardId);
+            setUnChosenCharacters([...unChosenCharacters.filter((char) => char != cardId)]);
+            chosenCharacters.length > bestScore && setBestScore(chosenCharacters.length);
+
+            console.log(unChosenCharacters)
             return;
         }
     };
@@ -82,7 +87,7 @@ export default function RenderGame({ changeDifficulty, characters }) {
                     </button>
                 ))}
 
-                <p>{round} / 5</p>
+                <p>{round} / {characters.length}</p>
             </section>
         </div>
     )
