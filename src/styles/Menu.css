@@ -2,12 +2,49 @@
     height: inherit;
     width: inherit;
     display: flex;
-    justify-content: center;
     align-items: center;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.difficulty {
+.logo img {
+    animation: logo-swing linear 10s infinite;
+}
+
+.difficulty-btns {
     display: flex;
-    gap: 8px;
+    gap: 16px;
 }
 
+.difficulty-btns button {
+    background-color: #97ce4c;
+    color: #44281d;
+    border-color: #e89ac7;
+    font-size: 1.5rem;
+}
+
+h1 {
+    font-size: 4rem;
+    color: #97ce4c;
+    text-shadow: -5px -1px 10px #44281d, 1px -1px 0 #44281d, -1px 1px 0 #000, 1px 1px 0 #44281d;
+    line-height: 4rem;
+    margin-bottom: 25px;
+}
+
+@keyframes logo-swing {
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(0.01turn);
+    }
+
+    50% {
+        transform: rotate(0);
+    }
+
+    75% {
+        transform: rotate(-0.01turn);
+    }
+}

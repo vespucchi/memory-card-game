@@ -4,6 +4,7 @@ import RenderMenu from './components/Menu';
 import RenderGame from './components/Game';
 import axios from 'axios';
 import './App.css';
+import video from './assets/rick_sanchez.mp4';
 
 let characters;
 let gameCharacters = [];
@@ -65,6 +66,12 @@ function App() {
                     ? <RenderMenu changeDifficulty={changeDifficulty} />
                     : <RenderGame key={difficulty} changeDifficulty={changeDifficulty} characters={gameCharacters} unchosenCharacters={unchosenCharacters}/>
             }
+            
+            <div className="video-container">
+                <video autoPlay={true} loop={true} muted={true} id="myVideo">
+                    <source src={video} type="video/mp4" />
+                </video>
+            </div>
             
         </>
     )
