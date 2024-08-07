@@ -10,29 +10,34 @@ export default function RenderGame({ changeDifficulty, characters, unchosenChara
     const [win, setWin] = useState(false);
     const [unChosenCharacters, setUnChosenCharacters] = useState([...unchosenCharacters]);
 
+    console.log(characters)
+
     useEffect(() => {
         if (win === false) {
             console.log('start')
             let uniqueCharacters = [];
             const generatedCards = [];
-            const unChosenCharCardIndex = Math.floor(Math.random() * characters.length - 1);
-            for (let i = 0; i < characters.length - 2; i++) {
-                if (i === 0) {
-                    // Generate at least 1 unchosen character
-                    console.log(unChosenCharacters);
-                    let randomId = unChosenCharacters[Math.floor(Math.random() * unChosenCharacters.length)];
-                    generatedCards.push(characters[randomId - 1]);
-                    uniqueCharacters = characters.filter((char) => char.id !== randomId).map((char) => char.id);
-                } else {
-                    // Generate other characters randomly
-                    let randomId = Math.floor(Math.random() * uniqueCharacters.length);
-                    generatedCards.push(characters[uniqueCharacters[randomId] - 1]);
-                    uniqueCharacters.splice(randomId, 1);
-                }
+
+            // Generate at least 1 unchosen character
+            let randomId = unChosenCharacters[Math.floor(Math.random() * unChosenCharacters.length)];
+            generatedCards.push(characters[randomId - 1]);
+            uniqueCharacters = characters.filter((char) => char.id !== randomId).map((char) => char.id);
+
+            // Generate remaining cards either unchosen or chosen
+            for (let i = 0; i < characters.length - 3; i++) {
+                let randomId = Math.floor(Math.random() * uniqueCharacters.length);
+                generatedCards.push(characters[uniqueCharacters[randomId] - 1]);
+                uniqueCharacters.splice(randomId, 1);
             }
+            
+            // Shuffle array
+            const x = Math.floor(Math.random() * generatedCards.length);
+            const y = Math.floor(Math.random() * generatedCards.length);
+            [generatedCards[x], generatedCards[y]] = [generatedCards[y], generatedCards[x]];
+
             setCards([...generatedCards]);
         }
-    }, [round, win, characters]);
+    }, [unChosenCharacters, win, characters]);
 
     const resetUnChosenCharactersArray = () => {
         setUnChosenCharacters([...unChosenCharacters]);
@@ -43,7 +48,6 @@ export default function RenderGame({ changeDifficulty, characters, unchosenChara
     }
 
     const newRound = (cardId) => {
-        const cardIndex = cardId - 1;
         if (chosenCharacters.includes(cardId)) {
             console.log('lose');
 
