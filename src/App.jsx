@@ -31,7 +31,6 @@ function App() {
         switch (difficulty) {
             case 'easy':
                 for (let i = 0; i < 5; i++) {
-                    console.log(characters[i]);
                     gameCharacters.push(characters[i]);
                 }
                 break;

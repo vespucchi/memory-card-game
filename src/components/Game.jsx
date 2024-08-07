@@ -2,49 +2,77 @@ import { useState, useEffect } from 'react';
 import uniqid from 'uniqid';
 
 let chosenCards = [];
+let unchosenCards = [0, 1, 2, 3, 4];
 
 export default function RenderGame({ changeDifficulty, characters }) {
     const [round, setRound] = useState(0);
     const [cards, setCards] = useState([]);
     const [bestScore, setBestScore] = useState(0);
-    const [chosenCards, setChosenCards] = useState([]);
+    const [win, setWin] = useState(false);
 
     useEffect(() => {
-        console.log('test');
-        const generatedCards = [];
-        if (characters.length === 5) {
-            for (let i = 0; i < 3; i++) {
-                const randomId = Math.floor(Math.random() * 4);
-                console.log(randomId);
-                generatedCards.push(characters[randomId]);
+        if (win === false) {
+            const generatedCards = [];
+            if (characters.length === 5) {
+                for (let i = 0; i < 3; i++) {
+                    if (i === 0) {
+                        let randomId = unchosenCards[Math.floor(Math.random() * unchosenCards.length)];
+                        generatedCards.push(characters[randomId]);
+                    } else {
+                        const randomId = Math.floor(Math.random() * 4);
+                        generatedCards.push(characters[randomId]);
+                    }
+                }
+                console.log(generatedCards)
+
+                setCards([...generatedCards]);
             }
-            setCards([...generatedCards]);
         }
         return(() => setCards([]));
-    }, [round, characters]);
+    }, [round, win, characters]);
+
+    const resetUnchosenCardsArray = () => {
+        unchosenCards = [0, 1, 2, 3, 4];
+    }
+
+    const resetChosenCardsArray = () => {
+        chosenCards.length = 0;
+    }
 
     const newRound = (cardId) => {
-        if (chosenCards.includes(cardId)) {
+        const cardIndex = cardId - 1;
+        if (chosenCards.includes(cardIndex)) {
+            console.log('lose');
+
             setRound(0);
-            chosenCards.length = 0;
-        } else if (chosenCards.length === characters.length) {
-            setRound(0);
-            chosenCards.length = 0;
-            setBestScore(characters.length);
+            resetChosenCardsArray();
+            resetUnchosenCardsArray();
         } else {
+            if (round === 4) {
+                console.log('win');
+                setRound(0);
+                setWin(true);
+                resetChosenCardsArray();
+                resetUnchosenCardsArray();
+                bestScore !== 5 && setBestScore(5);
+                return;
+            }
+            console.log('next');
             setRound(round + 1);
-            chosenCards.push(cardId);
+            chosenCards.push(cardIndex);
+            unchosenCards = unchosenCards.filter((card) => card != cardIndex);
+            console.log(chosenCards)
+            console.log(unchosenCards)
             chosenCards.length > bestScore && setBestScore(chosenCards.length);
+            return;
         }
     };
-
-    console.log(cards);
 
     return (
         <div className='game'>
             <button onClick={() => changeDifficulty(null)}>Back</button>
-            <p>{round}</p>
-            <p>{bestScore}</p>
+            <p>Score: {round}</p>
+            <p>Best score: {bestScore}</p>
 
             <section className="cards">
                 { cards.map((card) => (
@@ -53,6 +81,8 @@ export default function RenderGame({ changeDifficulty, characters }) {
                         <p>{card.name}</p>
                     </button>
                 ))}
+
+                <p>{round} / 5</p>
             </section>
         </div>
     )
