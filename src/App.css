@@ -1,0 +1,25 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    padding: 5px 15px;
+    border-radius: 10px;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+#root {
+    width: inherit;
+    height: inherit;
+}

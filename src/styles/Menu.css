@@ -1,0 +1,13 @@
+.menu {
+    height: inherit;
+    width: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.difficulty {
+    display: flex;
+    gap: 8px;
+}
+
