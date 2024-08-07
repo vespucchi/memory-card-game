@@ -20,7 +20,7 @@ function App() {
         axios.get('https://rickandmortyapi.com/api/character')
             .then(data => {
                 characters = data.data.results;
-                interval = setInterval(() => setIsLoading(false), 1000);
+                interval = setInterval(() => setIsLoading(false), 1500);
             })
             .catch(err => console.log(err));
 
@@ -66,7 +66,7 @@ function App() {
                     ? <RenderMenu changeDifficulty={changeDifficulty} />
                     : <RenderGame key={difficulty} changeDifficulty={changeDifficulty} characters={gameCharacters} unchosenCharacters={unchosenCharacters}/>
             }
-            
+
             <div className="video-container">
                 <video autoPlay={true} loop={true} muted={true} id="myVideo">
                     <source src={video} type="video/mp4" />
