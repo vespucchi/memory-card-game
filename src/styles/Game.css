@@ -1,0 +1,79 @@
+.game {
+    width: 100%;
+}
+
+.game .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.info button,
+.info .score {
+    margin: 20px;
+    font-weight: 600;
+}
+
+.info button {
+    background-color: #44281d;
+    color: #e4a788;
+    height: fit-content;
+}
+
+.info .score {
+    background-color: #97ce4c;
+    color: #44281d;
+    font-weight: 600;
+    padding: 10px 10px;
+    border-radius: 15px;
+    -webkit-box-shadow: 0px 0px 5px 3px #f0e14a;
+    -moz-box-shadow: 0px 0px 5px 3px #f0e14a;
+    box-shadow: 0px 0px 5px 3px #f0e14a;
+}
+
+.score p,
+.info button {
+    font-size: 1.3rem;
+}
+
+.rounds p {
+    font-size: 2rem;
+    color: #f0e14a;
+}
+
+.cards {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+.cards button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 225px;
+    height: 275px;
+    padding: 10px;
+    border: none;
+    color:#44281d;
+    font-weight: 700;
+
+    background-color: #e4a788;
+}
+
+.cards button img {
+    width: 200px;
+    margin-bottom: auto;
+    border: 1px solid;
+}

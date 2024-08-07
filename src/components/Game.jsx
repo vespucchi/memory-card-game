@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import uniqid from 'uniqid';
 import RenderOutcome from './Outcome';
+import '../styles/Game.css';
 
 let chosenCharacters = [];
 
@@ -87,22 +88,27 @@ export default function RenderGame({ changeDifficulty, characters, unchosenChara
 
     return (
         <div className='game'>
-            <button onClick={() => changeDifficulty(null)}>Back</button>
-            <p>Score: {round}</p>
-            <p>Best score: {bestScore}</p>
-
-            <section className="cards">
-                { cards.map((card) => (
-                    <button className="card-item" key={uniqid()} onClick={() => newRound(card.id)}>
-                        <img src={card.image} alt="" />
-                        <p>{card.name}</p>
-                    </button>
-                ))}
-
-                <p>{round} / {characters.length}</p>
-
-                {win !== null && <RenderOutcome win={win} newGame={newGame} /> }
-            </section>
+            <div className="container">
+                <section className="info">
+                    <button onClick={() => changeDifficulty(null)}>Back</button>
+                    <div className="score">
+                        <p>Score: {round}</p>
+                        <p>Best score: {bestScore}</p>
+                    </div>
+                </section>
+                <section className="cards">
+                    { cards.map((card) => (
+                        <button className="card-item" key={uniqid()} onClick={() => newRound(card.id)}>
+                            <img src={card.image} alt="" />
+                            <p>{card.name}</p>
+                        </button>
+                    ))}
+                </section>
+                <section className="rounds">
+                    <p>{round} / {characters.length}</p>
+                    {win !== null && <RenderOutcome win={win} newGame={newGame} />}
+                </section>
+            </div>
         </div>
     )
 }
