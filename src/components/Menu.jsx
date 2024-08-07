@@ -1,5 +1,3 @@
-import React from 'react';
-import uniqid from 'uniqid';
 import '../styles/Menu.css';
 
 export default function RenderMenu({ changeDifficulty }) {

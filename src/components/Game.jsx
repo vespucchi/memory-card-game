@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import uniqid from 'uniqid';
+import RenderOutcome from './Outcome';
 
 let chosenCharacters = [];
 
@@ -7,13 +8,13 @@ export default function RenderGame({ changeDifficulty, characters, unchosenChara
     const [round, setRound] = useState(0);
     const [cards, setCards] = useState([]);
     const [bestScore, setBestScore] = useState(0);
-    const [win, setWin] = useState(false);
+    const [win, setWin] = useState(null);
     const [unChosenCharacters, setUnChosenCharacters] = useState([...unchosenCharacters]);
 
     console.log(characters)
 
     useEffect(() => {
-        if (win === false) {
+        if (win === null) {
             console.log('start')
             let uniqueCharacters = [];
             const generatedCards = [];
@@ -40,7 +41,7 @@ export default function RenderGame({ changeDifficulty, characters, unchosenChara
     }, [unChosenCharacters, win, characters]);
 
     const resetUnChosenCharactersArray = () => {
-        setUnChosenCharacters([...unChosenCharacters]);
+        setUnChosenCharacters([...unchosenCharacters]);
     }
 
     const resetChosenCharactersArray = () => {
@@ -51,14 +52,14 @@ export default function RenderGame({ changeDifficulty, characters, unchosenChara
         if (chosenCharacters.includes(cardId)) {
             console.log('lose');
 
-            setRound(0);
+            setWin(false);
             resetChosenCharactersArray();
             resetUnChosenCharactersArray();
         } else {
             if (unChosenCharacters.length === 1) {
                 console.log('win');
 
-                setRound(0);
+                setRound(round + 1);
                 setWin(true);
                 resetChosenCharactersArray();
                 resetUnChosenCharactersArray();
@@ -77,6 +78,13 @@ export default function RenderGame({ changeDifficulty, characters, unchosenChara
         }
     };
 
+    const newGame = () => {
+        setRound(0);
+        setWin(null);
+        resetChosenCharactersArray();
+        resetUnChosenCharactersArray();
+    };
+
     return (
         <div className='game'>
             <button onClick={() => changeDifficulty(null)}>Back</button>
@@ -92,6 +100,8 @@ export default function RenderGame({ changeDifficulty, characters, unchosenChara
                 ))}
 
                 <p>{round} / {characters.length}</p>
+
+                {win !== null && <RenderOutcome win={win} newGame={newGame} /> }
             </section>
         </div>
     )
